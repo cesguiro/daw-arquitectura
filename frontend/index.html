@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daw-arquitectura</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<main>
+    <h1>daw-arquitectura</h1>
+    <p class="subtitle">nginx (proxy + estáticos) · Tomcat (Spring Boot) · MariaDB · MinIO</p>
+
+    <section>
+        <h2>/api/saludo</h2>
+        <p>Un hola-mundo que responde Tomcat. Con F12 → pestaña Network verás que
+           sale del mismo origen: nginx reenvía <code>/api/**</code> por ti.</p>
+        <form id="form-saludo">
+            <input type="text" id="nombre" placeholder="¿Cómo te llamas?">
+            <button type="submit">Saludar</button>
+        </form>
+        <pre id="saludo-respuesta" class="respuesta">La respuesta del servidor aparecerá aquí...</pre>
+    </section>
+
+    <section>
+        <h2>/api/mensajes</h2>
+        <p>La misma API leyendo datos reales de MariaDB, en la red interna.</p>
+        <button id="btn-cargar">Cargar mensajes</button>
+        <ul id="lista-mensajes"></ul>
+    </section>
+
+    <footer>frontend: servido por nginx · /api/: Tomcat a través del reverse proxy</footer>
+</main>
+<script src="js/app.js"></script>
+</body>
+</html>

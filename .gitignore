@@ -1,0 +1,11 @@
+# Build de Maven
+app/target/
+target/
+
+# IDE
+.idea/
+*.iml
+
+# Logs
+logs/
+*.log
