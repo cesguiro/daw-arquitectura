@@ -1,5 +1,5 @@
 # Build de Maven
-app/target/
+api/target/
 target/
 
 # IDE

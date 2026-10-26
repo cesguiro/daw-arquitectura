@@ -7,7 +7,7 @@ uso() {
     cat <<'EOF'
 uso: ./dev.sh <comando> [servicios...]
 
-  up [servicios...]    levanta todo el sistema (o solo los indicados: nginx app db minio)
+  up [servicios...]    levanta todo el sistema (o solo los indicados: nginx api db minio)
   down                 para y elimina los contenedores (los volúmenes de datos se conservan)
   build                reconstruye la imagen de la app (jar de Spring Boot)
   logs [servicio]      sigue los logs en vivo (Ctrl+C para salir)
@@ -31,7 +31,7 @@ case "$comando" in
         docker compose down
         ;;
     build)
-        docker compose build "${1:-app}"
+        docker compose build "${1:-api}"
         ;;
     logs)
         if [ $# -gt 0 ]; then

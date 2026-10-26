@@ -13,14 +13,14 @@ navegador
  nginx ─┬─ /           → frontend estático (HTML, CSS, JS)
         └─ /api/**      → reverse proxy
                             ▼
-                 app: Spring Boot (Tomcat embebido :8080, sin puerto propio)
+                 api: Spring Boot (Tomcat embebido :8080, sin puerto propio)
                             ├─ JDBC   → db:3306    (MariaDB 12.3, red interna)
                             └─ api S3 → minio:9000 (red interna)
 ```
 
 - **nginx** es el punto de entrada único: sirve los estáticos y reenvía `location /api/`
-  a `http://app:8080` (resolución por el DNS interno de Compose).
-- **app**: la API REST en Java (Spring Boot con Tomcat embebido); solo responde al proxy.
+  a `http://api:8080` (resolución por el DNS interno de Compose).
+- **api**: la API REST en Java (Spring Boot con Tomcat embebido); solo responde al proxy.
 - **db**: persistencia relacional (tabla `mensajes`, sembrada por `db/init.sql`).
 - **minio**: almacenamiento de objetos, ya en el sistema aunque la API no lo use todavía.
 
@@ -32,7 +32,7 @@ Requisitos: **Docker Desktop** y **Git Bash** (para el script, en Windows).
 ./dev.sh up        # todo el sistema (equals a docker compose up -d --build)
 ./dev.sh up db minio   # solo servicios concretos, p. ej. para desarrollar fuera de Docker
 ./dev.sh ps        # estado y puertos publicados
-./dev.sh logs app  # logs de un servicio (o de todos)
+./dev.sh logs api  # logs de un servicio (o de todos)
 ./dev.sh down      # para y elimina contenedores (los volúmenes se conservan)
 ```
 
@@ -59,12 +59,12 @@ cual (en `proxy_pass` no se indica URI), de modo que Tomcat ve `/api/saludo`.
 ## Estructura
 
 ```
-compile.yaml      ← sistema completo: nginx, app, db, minio + volúmenes
+compile.yaml      ← sistema completo: nginx, api, db, minio + volúmenes
 dev.sh            ← atajos para docker compose
-nginx/default.conf  ← location /api/ → http://app:8080  |  location / → estáticos
+nginx/default.conf  ← location /api/ → http://api:8080  |  location / → estáticos
 frontend/           ← lo que nginx sirve tal cual
 db/init.sql         ← esquema + datos la primera vez que se crea el volumen
-app/                ← Spring Boot: Dockerfile (2 etapas), pom.xml y src/
+api/                ← Spring Boot: Dockerfile (2 etapas), pom.xml y src/
 ```
 
 ## Notas
@@ -75,7 +75,7 @@ app/                ← Spring Boot: Dockerfile (2 etapas), pom.xml y src/
   resembrar: `docker compose down -v` y volver a `up`.
 - La consola de MinIO (9001) no se publica: pieza interna. Para asomarla a nivel local,
   añade en el servicio `minio`: `ports: ["9001:9001"]`.
-- `depends_on` + healthcheck: la app no arranca hasta que MariaDB acepta conexiones
+- `depends_on` + healthcheck: la api no arranca hasta que MariaDB acepta conexiones
   (`service_healthy`), lo que evita fallos de arranque al primer intento.
 
 ## Lo que aporta (como en el wiki de clase)

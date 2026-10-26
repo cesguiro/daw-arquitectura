@@ -12,9 +12,9 @@
     </parent>
 
     <groupId>es.cesguiro.daw</groupId>
-    <artifactId>arquitectura-app</artifactId>
+    <artifactId>arquitectura-api</artifactId>
     <version>0.1.0</version>
-    <name>daw-arquitectura-app</name>
+    <name>daw-arquitectura-api</name>
     <description>API REST de daw-arquitectura, servida por nginx como reverse proxy</description>
 
     <properties>

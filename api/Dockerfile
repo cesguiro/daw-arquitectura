@@ -1,4 +1,4 @@
-# daw-arquitectura: app = API REST con Spring Boot (Tomcat embebido, puerto 8080)
+# daw-arquitectura: api = API REST con Spring Boot (Tomcat embebido, puerto 8080)
 FROM maven:3.9-eclipse-temurin-25 AS build
 WORKDIR /build
 
